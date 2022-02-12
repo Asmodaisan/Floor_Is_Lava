@@ -5,14 +5,14 @@ using UnityEngine;
 public class Platform : MonoBehaviour
 {
     public bool wasVisited;
-    //float delay = 1.0f;
-
-    /*void OnTriggerEnter(Collider other)
+    
+    public void VisitPlatform()
     {
-        //yield return new WaitForSeconds(delay);
-        if (other.gameObject.CompareTag("Player"))
-        {
-            wasVisited = true;
-        }
-    }*/
+        wasVisited = true;
+    }
+
+    public bool WasPlatformVisited()
+    {
+        return wasVisited;
+    }
 }

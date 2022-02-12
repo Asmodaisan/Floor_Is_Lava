@@ -7,54 +7,52 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    public TextMeshProUGUI gameOverText;
-    public TextMeshProUGUI finishOverText;
-    public Button restartButton;
-    //public GameObject titleScreen;
     public bool isGameActive;
-    private int score;
-    private GameObject player;
+    public int score;
+    GameObject player;
+    UIPlayground playgroundUI;
 
-    // Start is called before the first frame update
     void Start()
     {
         isGameActive = true;
         player = GameObject.Find("PlayerArmature");
-        restartButton.gameObject.SetActive(false);
-        gameOverText.gameObject.SetActive(false);
-        finishOverText.gameObject.SetActive(false);
+        playgroundUI = GameObject.Find("Canvas").GetComponent<UIPlayground>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (player.transform.position.y < -1.28)
         {
-            isGameActive = false;
             GameOver();
         }
+        if (isGameActive)
+        {
+            score = GameObject.Find("PlayerArmature").GetComponent<JumpCounter>().jumpCounter;
+            MainManager.Instance.score = score;
+        }
     }
+
     public void Finish()
     {
-        restartButton.gameObject.SetActive(true);
-        finishOverText.gameObject.SetActive(true);
+        playgroundUI.Finish();
+        isGameActive = false;
+        player.SetActive(false);
     }
 
     public void GameOver()
     {
-        restartButton.gameObject.SetActive(true);
-        gameOverText.gameObject.SetActive(true);
         isGameActive = false;
-        //Destroy(player);
+        playgroundUI.GameOver();
         player.SetActive(false);
     }
+
     public void RestartGame()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
-    /*public void StartGame()
+
+    public void BackToMenu()
     {
-        isGameActive = true;
-        //titleScreen.gameObject.SetActive(false);
-    }*/
+        SceneManager.LoadScene(0);
+    }
 }
