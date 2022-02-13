@@ -11,6 +11,9 @@ public class GameManager : MonoBehaviour
     public int score;
     GameObject player;
     UIPlayground playgroundUI;
+    public string playerName;
+    public TMP_InputField iField;
+    public TextMeshProUGUI yourScore;
 
     void Start()
     {
@@ -25,11 +28,24 @@ public class GameManager : MonoBehaviour
         {
             GameOver();
         }
+
         if (isGameActive)
         {
             score = GameObject.Find("PlayerArmature").GetComponent<JumpCounter>().jumpCounter;
-            MainManager.Instance.score = score;
         }
+
+        if (!isGameActive)
+        {
+            yourScore.text = "Your Score - " + score;
+            MainManager.Instance.score = score;
+            MainManager.Instance.playerName = playerName;
+        }
+    }
+
+    public void NameInput()
+    {
+        playerName = iField.text;
+        iField.gameObject.SetActive(false);
     }
 
     public void Finish()
